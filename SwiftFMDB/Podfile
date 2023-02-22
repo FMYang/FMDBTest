@@ -1,0 +1,13 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'SwiftFMDB' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for SwiftFMDB
+  pod 'FMDB'
+  pod 'FMDBMigrationManager', :git => "https://github.com/FMYang/FMDBMigrationManager.git"
+  pod 'SnapKit'
+
+end
