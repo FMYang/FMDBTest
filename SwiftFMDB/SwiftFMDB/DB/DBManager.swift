@@ -85,7 +85,7 @@ class DBManager {
 //            return
 //        }
         
-        let migration = Migration(name: "在person表中插入email列", version: 1, updateSqlArray: [Person.addEmailSql])
+        let migration = Migration(name: "在person表中插入email列", version: 5, updateSqlArray: [Person.addEmailSql])
         manager?.addMigration(migration)
         do {
 //            print("上一个版本: \(manager?.originVersion ?? 0)")

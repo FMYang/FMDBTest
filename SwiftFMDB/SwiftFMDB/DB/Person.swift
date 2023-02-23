@@ -17,14 +17,10 @@ struct Person {
     var name: String = ""
     var age: Int = 0
     var email: String = ""
-    var address: String = ""
+//    var address: String = ""
     
     static var addEmailSql: String {
-        return """
-        alter table person
-        add column email text,
-        add column address text
-        """
+        return "alter table person add column email text"
     }
 }
 
@@ -39,8 +35,8 @@ extension Person: DBProtocol {
     }
     
     var insertSql: String {
-        return "insert into \(Person.tableName) (name, age) values ('\(name)','\(age)')"
-//        return "insert into \(Person.tableName) (name, age, email) values ('\(name)','\(age)', '\(email)', '\(address)'"
+//        return "insert into \(Person.tableName) (name, age) values ('\(name)','\(age)')"
+        return "insert into \(Person.tableName) (name, age, email) values ('\(name)','\(age)', '\(email)')"
     }
     
     static var querySql: String {
@@ -52,7 +48,8 @@ extension Person: DBProtocol {
         person.id = Int(resultSet.int(forColumn: "id"))
         person.name = resultSet.string(forColumn: "name") ?? ""
         person.age = Int(resultSet.int(forColumn: "age"))
-//        person.email = resultSet.string(forColumn: "email") ?? ""
+        person.email = resultSet.string(forColumn: "email") ?? ""
+//        person.address = resultSet.string(forColumn: "address") ?? ""
         return person
     }
 }
