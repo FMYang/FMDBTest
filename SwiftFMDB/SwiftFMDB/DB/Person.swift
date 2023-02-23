@@ -40,7 +40,7 @@ extension Person: DBProtocol {
     
     var insertSql: String {
         return "insert into \(Person.tableName) (name, age) values ('\(name)','\(age)')"
-//        return "insert into \(Person.tableName) (name, age, email) values ('\(name)','\(age)', '\(email)')"
+//        return "insert into \(Person.tableName) (name, age, email) values ('\(name)','\(age)', '\(email)', '\(address)'"
     }
     
     static var querySql: String {
