@@ -10,9 +10,9 @@ import FMDBMigrationManager
 
 class Migration:NSObject, FMDBMigrating {
     
-    public private(set) var name: String
+    public private(set) var name: String = ""
     
-    public private(set) var version: UInt64
+    public private(set) var version: UInt64 = 0
     
     public private(set) var updateSqlArray: [String] = []
     
@@ -22,7 +22,11 @@ class Migration:NSObject, FMDBMigrating {
         }
     }
     
-    init(name: String, version: UInt64, updateSqlArray: [String]) {
+    override init() {
+        super.init()
+    }
+    
+    required init(name: String, version: UInt64, updateSqlArray: [String]) {
         self.name = name
         self.version = version
         self.updateSqlArray = updateSqlArray

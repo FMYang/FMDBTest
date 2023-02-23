@@ -10,6 +10,7 @@ import FMDB
 import FMDBMigrationManager
 
 protocol DBProtocol {
+    static var tableName: String { get }
     var insertSql: String { get }
     static var createSql: String { get }
     static var querySql: String { get }
@@ -29,7 +30,7 @@ class DBManager {
     let dbQueue: FMDatabaseQueue? = FMDatabaseQueue(path: dbPath)
     
     // 2.create table
-    private func createTable(sql: String) {
+    public func createTable(sql: String) {
         dbQueue?.inDatabase({ db in
             print("1 \(Thread.current)")
             let success = db.executeStatements(sql)
@@ -67,7 +68,40 @@ class DBManager {
         })
     }
     
+    // 数据库升级（FMDB支持动态创建新表和删除表，这种情况不需要升级）
     static func upgrade() {
         let manager = FMDBMigrationManager(databaseAtPath: dbPath, migrationsBundle: Bundle.main)
+        
+        if manager?.hasMigrationsTable == false {
+            do {
+                try manager?.createMigrationsTable()
+            } catch {
+                print(error)
+            }
+        }
+        
+//        if manager?.needsMigration == false {
+//            print("不需要升级")
+//            return
+//        }
+        
+        let migration = Migration(name: "在person表中插入email列", version: 1, updateSqlArray: [Person.addEmailSql])
+        manager?.addMigration(migration)
+        do {
+//            print("上一个版本: \(manager?.originVersion ?? 0)")
+//            print("当前的版本: \(manager?.currentVersion ?? 0)")
+//            print("1: \(manager?.pendingVersions)")
+//            print("2: \(manager?.appliedVersions)")
+
+            try manager?.migrateDatabase(toVersion: UInt64.max, progress: { progress in
+                if let value = progress?.completedUnitCount, let total = progress?.totalUnitCount {
+                    let curProgress = Double(value) / Double(total)
+                    print("progress \(curProgress)")
+                }
+            })
+        } catch {
+            print(error)
+        }
+        
     }
 }

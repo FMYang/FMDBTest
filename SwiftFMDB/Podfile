@@ -7,7 +7,10 @@ target 'SwiftFMDB' do
 
   # Pods for SwiftFMDB
   pod 'FMDB'
-  pod 'FMDBMigrationManager', :git => "https://github.com/FMYang/FMDBMigrationManager.git"
+  pod 'FMDBMigrationManager', :git => 'https://github.com/c-shen/FMDBMigrationManager.git'
   pod 'SnapKit'
+
+  # 数据库调试
+  pod 'DatabaseVisual'
 
 end

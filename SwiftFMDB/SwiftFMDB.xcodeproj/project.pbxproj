@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		88A6620A29A46217003EEF41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6620929A46217003EEF41 /* AppDelegate.swift */; };
-		88A6620C29A46217003EEF41 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6620B29A46217003EEF41 /* SceneDelegate.swift */; };
 		88A6620E29A46217003EEF41 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6620D29A46217003EEF41 /* ViewController.swift */; };
 		88A6621129A46217003EEF41 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88A6620F29A46217003EEF41 /* Main.storyboard */; };
 		88A6621329A46218003EEF41 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88A6621229A46218003EEF41 /* Assets.xcassets */; };
@@ -17,6 +16,7 @@
 		88A6622029A4A7E6003EEF41 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6621F29A4A7E6003EEF41 /* DBManager.swift */; };
 		88A6622329A4AC1E003EEF41 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6622229A4AC1E003EEF41 /* Person.swift */; };
 		88A6622729A612C6003EEF41 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6622629A612C6003EEF41 /* Migration.swift */; };
+		88A6622929A7408E003EEF41 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6622829A7408E003EEF41 /* Book.swift */; };
 		B6D6E05065660E85A8B3E91D /* Pods_SwiftFMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080402FC78435156DE820A60 /* Pods_SwiftFMDB.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,7 +25,6 @@
 		080402FC78435156DE820A60 /* Pods_SwiftFMDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftFMDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A6620629A46217003EEF41 /* SwiftFMDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftFMDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A6620929A46217003EEF41 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		88A6620B29A46217003EEF41 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		88A6620D29A46217003EEF41 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		88A6621029A46217003EEF41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		88A6621229A46218003EEF41 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -35,6 +34,7 @@
 		88A6621F29A4A7E6003EEF41 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		88A6622229A4AC1E003EEF41 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		88A6622629A612C6003EEF41 /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
+		88A6622829A7408E003EEF41 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		DFF6863577E0436998D3FCEF /* Pods-SwiftFMDB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftFMDB.release.xcconfig"; path = "Target Support Files/Pods-SwiftFMDB/Pods-SwiftFMDB.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,8 +90,8 @@
 			children = (
 				88A6622129A4ABEF003EEF41 /* DB */,
 				88A6620929A46217003EEF41 /* AppDelegate.swift */,
-				88A6620B29A46217003EEF41 /* SceneDelegate.swift */,
 				88A6620D29A46217003EEF41 /* ViewController.swift */,
+				88A6621D29A462A9003EEF41 /* DBVC.swift */,
 				88A6620F29A46217003EEF41 /* Main.storyboard */,
 				88A6621229A46218003EEF41 /* Assets.xcassets */,
 				88A6621429A46218003EEF41 /* LaunchScreen.storyboard */,
@@ -105,8 +105,8 @@
 			children = (
 				88A6621F29A4A7E6003EEF41 /* DBManager.swift */,
 				88A6622229A4AC1E003EEF41 /* Person.swift */,
-				88A6621D29A462A9003EEF41 /* DBVC.swift */,
 				88A6622629A612C6003EEF41 /* Migration.swift */,
+				88A6622829A7408E003EEF41 /* Book.swift */,
 			);
 			path = DB;
 			sourceTree = "<group>";
@@ -226,11 +226,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88A6622929A7408E003EEF41 /* Book.swift in Sources */,
 				88A6622029A4A7E6003EEF41 /* DBManager.swift in Sources */,
 				88A6621E29A462A9003EEF41 /* DBVC.swift in Sources */,
 				88A6620E29A46217003EEF41 /* ViewController.swift in Sources */,
 				88A6620A29A46217003EEF41 /* AppDelegate.swift in Sources */,
-				88A6620C29A46217003EEF41 /* SceneDelegate.swift in Sources */,
 				88A6622729A612C6003EEF41 /* Migration.swift in Sources */,
 				88A6622329A4AC1E003EEF41 /* Person.swift in Sources */,
 			);

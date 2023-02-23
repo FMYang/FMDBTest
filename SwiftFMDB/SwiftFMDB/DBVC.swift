@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DatabaseVisual
 
 class DBVC: UIViewController {
             
@@ -36,6 +37,14 @@ class DBVC: UIViewController {
         btn.setTitle("upgrade", for: .normal)
         btn.setTitleColor(.red, for: .normal)
         btn.addTarget(self, action: #selector(upgradeAction), for: .touchUpInside)
+        return btn
+    }()
+    
+    lazy var showButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("show", for: .normal)
+        btn.setTitleColor(.red, for: .normal)
+        btn.addTarget(self, action: #selector(showAction), for: .touchUpInside)
         return btn
     }()
     
@@ -72,17 +81,22 @@ class DBVC: UIViewController {
     }
     
     @objc func upgradeAction() {
-        
+        DBManager.upgrade()
+    }
+    
+    @objc func showAction() {
+        DatabaseManager.sharedInstance().showTables()
     }
     
     func makeUI() {
         view.addSubview(addButton)
         view.addSubview(queryButton)
         view.addSubview(upgradeButton)
+        view.addSubview(showButton)
         view.addSubview(tableView)
         addButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
-            make.left.equalToSuperview().offset(20)
+            make.left.equalToSuperview()
             make.height.equalTo(44)
         }
         
@@ -96,7 +110,13 @@ class DBVC: UIViewController {
             make.left.equalTo(queryButton.snp.right)
             make.centerY.equalTo(queryButton)
             make.width.equalTo(queryButton)
-            make.right.equalToSuperview().offset(-20)
+        }
+        
+        showButton.snp.makeConstraints { make in
+            make.left.equalTo(upgradeButton.snp.right)
+            make.centerY.equalTo(upgradeButton)
+            make.width.equalTo(upgradeButton)
+            make.right.equalToSuperview()
         }
         
         tableView.snp.makeConstraints { make in
