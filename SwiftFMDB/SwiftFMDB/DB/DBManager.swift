@@ -19,9 +19,12 @@ protocol DBProtocol {
 
 class DBManager {
     
+    static let lastestVersion = 2
+    
     static let shared = DBManager()
 
     private init() {
+        print("init")
         createTable(sql: Person.createSql)
     }
     
@@ -29,7 +32,6 @@ class DBManager {
     
     let dbQueue: FMDatabaseQueue? = FMDatabaseQueue(path: dbPath)
     
-    // 2.create table
     public func createTable(sql: String) {
         dbQueue?.inDatabase({ db in
             print("1 \(Thread.current)")
@@ -70,6 +72,12 @@ class DBManager {
     
     // 数据库升级（FMDB支持动态创建新表和删除表，这种情况不需要升级）
     static func upgrade() {
+        if DBManager.shared.dbVersion >= lastestVersion {
+            print("已是最新版本, 不需要升级")
+            return
+        }
+        
+        print("从\(DBManager.shared.dbVersion)升级到版本\(lastestVersion)")
         let manager = FMDBMigrationManager(databaseAtPath: dbPath, migrationsBundle: Bundle.main)
         
         if manager?.hasMigrationsTable == false {
@@ -80,19 +88,11 @@ class DBManager {
             }
         }
         
-//        if manager?.needsMigration == false {
-//            print("不需要升级")
-//            return
-//        }
-        
-        let migration = Migration(name: "在person表中插入email列", version: 5, updateSqlArray: [Person.addEmailSql])
-        manager?.addMigration(migration)
+        let migration1 = Migration(name: "升级第1个版本", version: 1, updateSqlArray: Person.upgradeVersion1Sql)
+        let migration2 = Migration(name: "升级第2个版本", version: 2, updateSqlArray: Person.upgradeVersion2Sql)
+        manager?.addMigration(migration1)
+        manager?.addMigration(migration2)
         do {
-//            print("上一个版本: \(manager?.originVersion ?? 0)")
-//            print("当前的版本: \(manager?.currentVersion ?? 0)")
-//            print("1: \(manager?.pendingVersions)")
-//            print("2: \(manager?.appliedVersions)")
-
             try manager?.migrateDatabase(toVersion: UInt64.max, progress: { progress in
                 if let value = progress?.completedUnitCount, let total = progress?.totalUnitCount {
                     let curProgress = Double(value) / Double(total)
@@ -103,5 +103,18 @@ class DBManager {
             print(error)
         }
         
+        // 更新版本号
+        DBManager.shared.dbVersion = DBManager.lastestVersion
+    }
+}
+
+extension DBManager {
+    var dbVersion: Int {
+        get {
+            return UserDefaults.standard.object(forKey: "version") as? Int ?? 0
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "version")
+        }
     }
 }

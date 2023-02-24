@@ -65,7 +65,7 @@ class DBVC: UIViewController {
     
     @objc func addAction() {
         let age = Int(10 + arc4random() % (50 - 10 + 1))
-        let person = Person(name: "test", age: age, email: "11@qq.com")
+        let person = Person(name: "test", age: age, email: "11@qq.com", address: "gz", tel: "120")
         DBManager.insert(object: person)
         queryAction()
     }
@@ -81,7 +81,7 @@ class DBVC: UIViewController {
     }
     
     @objc func upgradeAction() {
-        DBManager.upgrade()
+//        DBManager.upgrade()
     }
     
     @objc func showAction() {

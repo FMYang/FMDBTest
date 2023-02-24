@@ -23,6 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         nav.navigationBar.isTranslucent = false
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
+        
+        DBManager.upgrade()
+        
+        DBManager.shared.dbVersion = DBManager.lastestVersion
+        
         return true
     }
 }
