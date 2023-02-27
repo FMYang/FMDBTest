@@ -11,6 +11,6 @@ target 'SwiftFMDB' do
   pod 'SnapKit'
 
   # 数据库调试
-  pod 'DatabaseVisual'
+  pod 'DatabaseVisual', :git => 'https://github.com/FMYang/DatabaseVisual.git'
 
 end
