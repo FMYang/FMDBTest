@@ -19,25 +19,24 @@ protocol DBProtocol {
 
 class DBManager {
     
+    static let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+    static let dbPath = documentDir.appending("/tmp.db")
+
     static let lastestVersion = 2
     
     static let shared = DBManager()
 
-    private init() {
-        print("init")
-        createTable(sql: Person.createSql)
-    }
+    private init() {}
+        
     
-    static let dbPath = NSTemporaryDirectory().appending("tmp.db")
+    let dbQueue: FMDatabaseQueue? = FMDatabaseQueue(path: DBManager.dbPath)
     
-    let dbQueue: FMDatabaseQueue? = FMDatabaseQueue(path: dbPath)
-    
-    public func createTable(sql: String) {
-        dbQueue?.inDatabase({ db in
+    public static func createTable() {
+        shared.dbQueue?.inDatabase({ db in
             print("1 \(Thread.current)")
-            let success = db.executeStatements(sql)
+            let success = db.executeStatements(Person.createSql)
             if !success {
-                print("create table error \(sql)")
+                print("create table error \(Person.createSql)")
             }
         })
     }

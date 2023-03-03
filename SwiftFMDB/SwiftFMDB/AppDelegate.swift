@@ -14,7 +14,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        DatabaseManager.sharedInstance().dbDocumentPath = NSTemporaryDirectory()
+        DatabaseManager.sharedInstance().dbDocumentPath = DBManager.documentDir
+        DBManager.createTable()
+        DBManager1.createTables()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white

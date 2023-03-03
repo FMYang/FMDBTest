@@ -27,7 +27,8 @@ class ViewController: UIViewController {
     }
 
     @objc func btnClick() {
-        let vc = DBVC()
+//        let vc = DBVC()
+        let vc = BookVC()
         navigationController?.pushViewController(vc, animated: true)
     }
 

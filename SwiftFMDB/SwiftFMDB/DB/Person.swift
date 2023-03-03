@@ -39,13 +39,13 @@ extension Person: DBProtocol {
     }
     
     static var createSql: String {
-//        return "create table if not exists \(tableName) (id integer primary key autoincrement, name text, age integer)"
-        return "create table if not exists \(tableName) (id integer primary key autoincrement, name text, age integer, email text, address text, tel text)"
+        return "create table if not exists \(tableName) (id integer primary key autoincrement, name text, age integer)"
+//        return "create table if not exists \(tableName) (id integer primary key autoincrement, name text, age integer, email text, address text, tel text)"
     }
     
     var insertSql: String {
-//        return "insert into \(Person.tableName) (name, age) values ('\(name)','\(age)')"
-        return "insert into \(Person.tableName) (name, age, email, address, tel) values ('\(name)','\(age)', '\(email)', '\(address)', '\(tel)')"
+        return "insert into \(Person.tableName) (name, age) values ('\(name)','\(age)')"
+//        return "insert into \(Person.tableName) (name, age, email, address, tel) values ('\(name)','\(age)', '\(email)', '\(address)', '\(tel)')"
     }
     
     static var querySql: String {
@@ -57,9 +57,9 @@ extension Person: DBProtocol {
         person.id = Int(resultSet.int(forColumn: "id"))
         person.name = resultSet.string(forColumn: "name") ?? ""
         person.age = Int(resultSet.int(forColumn: "age"))
-        person.email = resultSet.string(forColumn: "email") ?? ""
-        person.address = resultSet.string(forColumn: "address") ?? ""
-        person.tel = resultSet.string(forColumn: "tel") ?? ""
+//        person.email = resultSet.string(forColumn: "email") ?? ""
+//        person.address = resultSet.string(forColumn: "address") ?? ""
+//        person.tel = resultSet.string(forColumn: "tel") ?? ""
         return person
     }
 }

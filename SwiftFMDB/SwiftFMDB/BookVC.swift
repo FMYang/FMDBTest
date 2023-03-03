@@ -1,16 +1,15 @@
 //
-//  DBVC.swift
+//  BookVC.swift
 //  SwiftFMDB
 //
-//  Created by yfm on 2023/2/21.
+//  Created by yfm on 2023/3/2.
 //
 
 import UIKit
 import DatabaseVisual
 
-class DBVC: UIViewController {
-            
-    var datasource: [Person] = [] {
+class BookVC: UIViewController {
+    var datasource: [Book] = [] {
         didSet {
             tableView.reloadData()
         }
@@ -31,15 +30,7 @@ class DBVC: UIViewController {
         btn.addTarget(self, action: #selector(queryAction), for: .touchUpInside)
         return btn
     }()
-    
-    lazy var upgradeButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("upgrade", for: .normal)
-        btn.setTitleColor(.red, for: .normal)
-        btn.addTarget(self, action: #selector(upgradeAction), for: .touchUpInside)
-        return btn
-    }()
-    
+        
     lazy var showButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("show", for: .normal)
@@ -61,43 +52,24 @@ class DBVC: UIViewController {
         view.backgroundColor = .white
         makeUI()
         queryAction()
-        
-        DispatchQueue.global().async {
-            DBManager.shared.dbQueue?.inDatabase({ db in
-                do {
-                    let ret = try db.executeQuery("select count(*) as count from person where id = 1", values: nil)
-                    if ret.next() {
-                        let count = ret.int(forColumn: "count")
-                        print("count = \(count)")
-                    }
-                } catch {
-                    print(error)
-                }
-            })
-        }
     }
     
     @objc func addAction() {
-        let age = Int(10 + arc4random() % (50 - 10 + 1))
-        let person = Person(name: "test", age: age, email: "11@qq.com", address: "gz", tel: "120")
-        DBManager.insert(object: person)
+        let index = arc4random() % 100 + 1
+        let person = Book(name: "book_\(index)", author: "yfm")
+        Book.insert(object: person)
         queryAction()
     }
     
     @objc func queryAction() {
-        DBManager.query(object: Person.self) { [weak self] data in
-            if let data = data as? [Person] {
-                DispatchQueue.main.async {
-                    self?.datasource = data
-                }
-            }
+        Book.query { [weak self] data in
+            self?.datasource = data
         }
+//        Book.query(where: 5, block: { [weak self] data in
+//            self?.datasource = data
+//        })
     }
-    
-    @objc func upgradeAction() {
-//        DBManager.upgrade()
-    }
-    
+        
     @objc func showAction() {
         DatabaseManager.sharedInstance().showTables()
     }
@@ -105,7 +77,6 @@ class DBVC: UIViewController {
     func makeUI() {
         view.addSubview(addButton)
         view.addSubview(queryButton)
-        view.addSubview(upgradeButton)
         view.addSubview(showButton)
         view.addSubview(tableView)
         addButton.snp.makeConstraints { make in
@@ -120,16 +91,10 @@ class DBVC: UIViewController {
             make.width.equalTo(addButton)
         }
         
-        upgradeButton.snp.makeConstraints { make in
+        showButton.snp.makeConstraints { make in
             make.left.equalTo(queryButton.snp.right)
             make.centerY.equalTo(queryButton)
             make.width.equalTo(queryButton)
-        }
-        
-        showButton.snp.makeConstraints { make in
-            make.left.equalTo(upgradeButton.snp.right)
-            make.centerY.equalTo(upgradeButton)
-            make.width.equalTo(upgradeButton)
             make.right.equalToSuperview()
         }
         
@@ -138,17 +103,21 @@ class DBVC: UIViewController {
             make.left.right.bottom.equalToSuperview()
         }
     }
+
 }
 
-extension DBVC: UITableViewDelegate, UITableViewDataSource {
+extension BookVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return datasource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as UITableViewCell
-        let person = datasource[indexPath.row]
-        cell.textLabel?.text = "name = \(person.name)_\(person.id), age = \(person.age)"
+        let book = datasource[indexPath.row]
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        let str = (book.publishDate != nil) ? formatter.string(from: book.publishDate!) : ""
+        cell.textLabel?.text = "\(book.name), \(book.author), \(str)"
         return cell
     }
 }
