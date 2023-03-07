@@ -15,8 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         DatabaseManager.sharedInstance().dbDocumentPath = DBManager.documentDir
-        DBManager.createTable()
-        DBManager1.createTables()
+        DBManager.createTables()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
@@ -27,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         DBManager.upgrade()
-        
-        DBManager.shared.dbVersion = DBManager.lastestVersion
+//
+//        DBManager.shared.dbVersion = DBManager.lastestVersion
         
         return true
     }

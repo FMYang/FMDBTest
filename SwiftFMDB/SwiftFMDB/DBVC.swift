@@ -61,25 +61,24 @@ class DBVC: UIViewController {
         view.backgroundColor = .white
         makeUI()
         queryAction()
-        
-        DispatchQueue.global().async {
-            DBManager.shared.dbQueue?.inDatabase({ db in
-                do {
-                    let ret = try db.executeQuery("select count(*) as count from person where id = 1", values: nil)
-                    if ret.next() {
-                        let count = ret.int(forColumn: "count")
-                        print("count = \(count)")
-                    }
-                } catch {
-                    print(error)
-                }
-            })
-        }
+//        DispatchQueue.global().async {
+//            DBManager.shared.dbQueue?.inDatabase({ db in
+//                do {
+//                    let ret = try db.executeQuery("select count(*) as count from person where id = 1", values: nil)
+//                    if ret.next() {
+//                        let count = ret.int(forColumn: "count")
+//                        print("count = \(count)")
+//                    }
+//                } catch {
+//                    print(error)
+//                }
+//            })
+//        }
     }
     
     @objc func addAction() {
         let age = Int(10 + arc4random() % (50 - 10 + 1))
-        let person = Person(name: "test", age: age, email: "11@qq.com", address: "gz", tel: "120")
+        let person = Person(name: "test", age: age)
         DBManager.insert(object: person)
         queryAction()
     }
@@ -148,7 +147,7 @@ extension DBVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as UITableViewCell
         let person = datasource[indexPath.row]
-        cell.textLabel?.text = "name = \(person.name)_\(person.id), age = \(person.age)"
+        cell.textLabel?.text = "\(person.id), \(person.name)_\(person.id), \(person.age)"
         return cell
     }
 }

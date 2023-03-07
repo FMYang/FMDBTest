@@ -15,79 +15,79 @@ struct Book {
     var publishDate: Date?
 }
 
-extension Book {
-    
-    static var tableName: String {
-        return "Book"
-    }
-    
-    static var createSql: String {
-        return """
-               create table if not exists \(tableName) (
-                    id integer primary key,
-                    name text,
-                    author text,
-                    publishDate text
-               )
-               """
-    }
-    
-    // 插入
-    static func insert(object: Book) {
-        DBManager1.asyncExcute { db in
-            do {
-                try db.executeUpdate("insert or replace into \(tableName) (name, author, publishDate) values (?,?,?)", values: [object.name, object.author, object.publishDate ?? Date()])
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    //
-    static func query(block: @escaping ([Book])->()) {
-        DBManager1.asyncExcute { db in
-            do {
-                let ret = try db.executeQuery("select * from \(tableName)", values: nil)
-                var result = [Book]()
-                while ret.next() {
-                    var book = Book()
-                    book.id = Int(ret.int(forColumn: "id"))
-                    book.name = ret.string(forColumn: "name") ?? ""
-                    book.author = ret.string(forColumn: "author") ?? ""
-                    book.publishDate = ret.date(forColumn: "publishDate")
-                    result.append(book)
-                }
-                DispatchQueue.main.async {
-                    block(result)
-                }
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    static func query(where id: Int, block: @escaping ([Book])->()) {
-        DBManager1.asyncExcute { db in
-            do {
-                let ret = try db.executeQuery("select * from \(tableName) where id = ?", values: [id])
-                var result = [Book]()
-                while ret.next() {
-                    var book = Book()
-                    book.id = Int(ret.int(forColumn: "id"))
-                    book.name = ret.string(forColumn: "name") ?? ""
-                    book.author = ret.string(forColumn: "author") ?? ""
-                    book.publishDate = ret.date(forColumn: "publishDate")
-                    result.append(book)
-                }
-                DispatchQueue.main.async {
-                    block(result)
-                }
-            } catch {
-                print(error)
-            }
-        }
-    }
-}
+//extension Book {
+//
+//    static var tableName: String {
+//        return "Book"
+//    }
+//
+//    static var createSql: String {
+//        return """
+//               create table if not exists \(tableName) (
+//                    id integer primary key,
+//                    name text,
+//                    author text,
+//                    publishDate text
+//               )
+//               """
+//    }
+//
+//    // 插入
+//    static func insert(object: Book) {
+//        DBManager1.asyncExcute { db in
+//            do {
+//                try db.executeUpdate("insert or replace into \(tableName) (name, author, publishDate) values (?,?,?)", values: [object.name, object.author, object.publishDate ?? Date()])
+//            } catch {
+//                print(error)
+//            }
+//        }
+//    }
+//
+//    //
+//    static func query(block: @escaping ([Book])->()) {
+//        DBManager1.asyncExcute { db in
+//            do {
+//                let ret = try db.executeQuery("select * from \(tableName)", values: nil)
+//                var result = [Book]()
+//                while ret.next() {
+//                    var book = Book()
+//                    book.id = Int(ret.int(forColumn: "id"))
+//                    book.name = ret.string(forColumn: "name") ?? ""
+//                    book.author = ret.string(forColumn: "author") ?? ""
+//                    book.publishDate = ret.date(forColumn: "publishDate")
+//                    result.append(book)
+//                }
+//                DispatchQueue.main.async {
+//                    block(result)
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        }
+//    }
+//
+//    static func query(where id: Int, block: @escaping ([Book])->()) {
+//        DBManager1.asyncExcute { db in
+//            do {
+//                let ret = try db.executeQuery("select * from \(tableName) where id = ?", values: [id])
+//                var result = [Book]()
+//                while ret.next() {
+//                    var book = Book()
+//                    book.id = Int(ret.int(forColumn: "id"))
+//                    book.name = ret.string(forColumn: "name") ?? ""
+//                    book.author = ret.string(forColumn: "author") ?? ""
+//                    book.publishDate = ret.date(forColumn: "publishDate")
+//                    result.append(book)
+//                }
+//                DispatchQueue.main.async {
+//                    block(result)
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        }
+//    }
+//}
 
 //extension Book: DBProtocol {
 //    static var tableName: String {
