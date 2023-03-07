@@ -18,17 +18,7 @@ struct Person {
     var email: String = ""
     var address: String = ""
     var tel: String = ""
-    
-//    // 版本1
-//    static var upgradeVersion1Sql: [String] {
-//        return ["alter table person add column email text default ''",
-//                "alter table person add column address text default ''"]
-//    }
-//
-//    // 版本2
-//    static var upgradeVersion2Sql: [String] {
-//        return ["alter table person add column tel text default ''"]
-//    }
+    var son: Int = 0
 }
 
 extension Person: DBProtocol {
@@ -36,20 +26,17 @@ extension Person: DBProtocol {
     static var tableName: String {
         return "person"
     }
-    
-    static var columnSet: [String] {
-//        return ["id", "name", "age", "email"] // version1
-        return ["id", "name", "age", "email", "address", "tel"] // version2
+
+    static var columns: [[String: String]] {
+        return [["id": "integer"],["name": "text"],["age": "integer"],["email": "text"],["address": "text"], ["tel": "text"], ["son": "integer"]]
     }
     
     static var createSql: String {
-//        return "create table if not exists \(tableName) (id integer primary key autoincrement, name text, age integer, email text)"
-        return "create table if not exists \(tableName) (id integer primary key autoincrement, name text, age integer, email text, address text, tel text)"
+        return "create table if not exists \(tableName) (id integer primary key autoincrement, name text, age integer, email text, address text, tel text, son integer)"
     }
     
     var insertSql: String {
-//        return "insert into \(Person.tableName) (name, age, email) values ('\(name)','\(age)', '\(email)')"
-        return "insert into \(Person.tableName) (name, age, email, address, tel) values ('\(name)','\(age)', '\(email)', '\(address)', '\(tel)')"
+        return "insert into \(Person.tableName) (name, age, email, address, tel, son) values ('\(name)', \(age), '\(email)', '\(address)', '\(tel)', \(son))"
     }
         
     static func toModel(resultSet: FMResultSet) -> DBProtocol {
@@ -60,6 +47,7 @@ extension Person: DBProtocol {
         person.email = resultSet.string(forColumn: "email") ?? ""
         person.address = resultSet.string(forColumn: "address") ?? ""
         person.tel = resultSet.string(forColumn: "tel") ?? ""
+        person.son = Int(resultSet.int(forColumn: "son"))
         return person
     }
 }

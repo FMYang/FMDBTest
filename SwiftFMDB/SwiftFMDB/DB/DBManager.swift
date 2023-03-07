@@ -14,7 +14,7 @@ protocol DBProtocol {
     static var tableName: String { get }
     static var createSql: String { get }
     static func toModel(resultSet: FMResultSet) -> DBProtocol
-    static var columnSet: [String] { get }
+    static var columns: [[String: String]] { get }
 }
 
 class DBManager {
@@ -115,9 +115,16 @@ class DBManager {
             }
         })
         var sqls = [String]()
-        for column in Person.columnSet {
-            if !tableColumns.contains(column) {
-                sqls.append("alter table \(Person.tableName) add column \(column) text")
+//        for column in Person.columnSet {
+//            if !tableColumns.contains(column) {
+//                sqls.append("alter table \(Person.tableName) add column \(column) text")
+//            }
+//        }
+        for info in Person.columns {
+            if let name = info.keys.first, let type = info.values.first {
+                if !tableColumns.contains(name) {
+                    sqls.append("alter table \(Person.tableName) add column \(name) \(type)")
+                }
             }
         }
         if sqls.count <= 0 { return }
