@@ -28,15 +28,24 @@ extension Person: DBProtocol {
     }
 
     static var columns: [[String: String]] {
-        return [["id": "integer"],["name": "text"],["age": "integer"],["email": "text"],["address": "text"], ["tel": "text"], ["son": "integer"]]
+//        return [["id": "integer"],["name": "text"],["age": "integer"]]
+        return [["id": "integer"],
+                ["name": "text"],
+                ["age": "integer"],
+                ["email": "text"],
+                ["address": "text"],
+                ["tel": "text"],
+                ["son": "integer"]]
     }
     
     static var createSql: String {
+//        return "create table if not exists \(tableName) (id integer primary key autoincrement, name text, age integer)"
         return "create table if not exists \(tableName) (id integer primary key autoincrement, name text, age integer, email text, address text, tel text, son integer)"
     }
     
     var insertSql: String {
-        return "insert into \(Person.tableName) (name, age, email, address, tel, son) values ('\(name)', \(age), '\(email)', '\(address)', '\(tel)', \(son))"
+//        return "insert into \(Person.tableName) (name, age) values ('\(name)', \(age))"
+        return "insert or replace into \(Person.tableName) (name, age, email, address, tel, son) values ('\(name)', \(age), '\(email)', '\(address)', '\(tel)', \(son))"
     }
         
     static func toModel(resultSet: FMResultSet) -> DBProtocol {

@@ -15,8 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         DatabaseManager.sharedInstance().dbDocumentPath = DBManager.documentDir
-        DBManager.createTables()
-        
+        DBManager.create(tables: [Person.self])
+        DBManager.upgrade(tables: [Person.self])
+
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
         let vc = ViewController()
@@ -25,7 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
         
-        DBManager.upgrade()
 //
 //        DBManager.shared.dbVersion = DBManager.lastestVersion
         

@@ -32,14 +32,6 @@ class DBVC: UIViewController {
         return btn
     }()
     
-    lazy var upgradeButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("upgrade", for: .normal)
-        btn.setTitleColor(.red, for: .normal)
-        btn.addTarget(self, action: #selector(upgradeAction), for: .touchUpInside)
-        return btn
-    }()
-    
     lazy var showButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("show", for: .normal)
@@ -78,7 +70,7 @@ class DBVC: UIViewController {
     
     @objc func addAction() {
         let age = Int(10 + arc4random() % (50 - 10 + 1))
-        let person = Person(name: "test", age: age)
+        let person = Person(name: "test", age: age, email: "11@qq.com", address: "sz", tel: "110", son: 2)
         DBManager.insert(object: person)
         queryAction()
     }
@@ -93,10 +85,6 @@ class DBVC: UIViewController {
         }
     }
     
-    @objc func upgradeAction() {
-//        DBManager.upgrade()
-    }
-    
     @objc func showAction() {
         DatabaseManager.sharedInstance().showTables()
     }
@@ -104,7 +92,6 @@ class DBVC: UIViewController {
     func makeUI() {
         view.addSubview(addButton)
         view.addSubview(queryButton)
-        view.addSubview(upgradeButton)
         view.addSubview(showButton)
         view.addSubview(tableView)
         addButton.snp.makeConstraints { make in
@@ -119,16 +106,10 @@ class DBVC: UIViewController {
             make.width.equalTo(addButton)
         }
         
-        upgradeButton.snp.makeConstraints { make in
+        showButton.snp.makeConstraints { make in
             make.left.equalTo(queryButton.snp.right)
             make.centerY.equalTo(queryButton)
             make.width.equalTo(queryButton)
-        }
-        
-        showButton.snp.makeConstraints { make in
-            make.left.equalTo(upgradeButton.snp.right)
-            make.centerY.equalTo(upgradeButton)
-            make.width.equalTo(upgradeButton)
             make.right.equalToSuperview()
         }
         
